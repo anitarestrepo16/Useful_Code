@@ -1,4 +1,5 @@
 ###### create and use function to find Standard Error of the Means
+## from MAPSS thesis (originally directly from web)
 
 #create function that calculates summary values by group
 summarySE <- function(data=NULL, measurevar, groupvars=NULL, na.rm=FALSE,
