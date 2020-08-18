@@ -1,0 +1,33 @@
+# NEEDS MORE UNDERSTANDING OF CODE + NOTES
+### Create Simple Slopes plots and run hypothesis tests
+## from Colleen
+
+library(nlme)
+model <- lme (Outcome ~ Predictor1 * Predictor2, data= df, random = ~1|Sub_ID, na.action = na.omit, method = "ML")
+
+## identify variable levels (+/- 1 SD)
+Predictor1.low <- mean(df$Predictor1, na.rm=T) - 1*sd(df$Predictor1, na.rm=T)
+Predictor1.high <- mean(df$Predictor1, na.rm=T) + 1*sd(df$Predictor1, na.rm=T)
+
+## Identify variable levels (+/- 1 SD)
+Predictor2.low <- mean(df$Predictor2, na.rm=T) - 1*sd(df$Predictor2, na.rm=T)
+Predictor2.high <- mean(df$Predictor2, na.rm=T) + 1*sd(df$Predictor2, na.rm=T)
+
+## set up data matrix
+newdf <- with(df, data.frame(Predictor2=c(Predictor2.low, Predictor2.high, Predictor2.low, Predictor2.high), Predictor1=c(Predictor1.high, Predictor1.high, Predictor1.low, Predictor1.low)))
+
+#####Generate predicted values from data frame
+newdf$Outcome <- predict(model,newdata=newdf, type="response", level=0)
+
+## Create design matrix to get standard errors
+attach(newdf)
+newdf.desmat<- model.matrix(eval(eval(model$call$fixed)[-2],newdf[-ncol(newdf)]))
+
+## compute st.err for predictions
+predvar.Outcome <- diag( newdf.desmat   %*% model$varFix %*% t(newdf.desmat))
+newdf$SE <- sqrt(predvar.Outcome)
+
+# run ANOVA comparing four groups
+# create new column with just numbers
+newdf$Group <- c(1:4)
+summary(aov(Outcome~Group, data = newdf))
