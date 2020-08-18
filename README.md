@@ -1,2 +1,2 @@
 # Useful_Code
-Pulled from various places including PIU project and Data Science course with Fan
+More complex templates for specific tasks pulled mainly from PIU project (i.e. NOT one-liners)
