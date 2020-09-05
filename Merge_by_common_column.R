@@ -10,6 +10,11 @@ Merge <- function(x, y){
 Merged_df <- Reduce(Merge, list(df1, df2, df3, df4, ...))
 
 # can also use the join_all() function from plyr package
+# https://www.rdocumentation.org/packages/plyr/versions/1.8.6/topics/join_all
+join_all(dfs, by = NULL, type = "left", match = "all")
+    # by = "commmon column"
+    # type = type of join (left, right, inner, full
+    # match = how to deal with duplicates in key ("first": match only first occurrence; "all": match all occurrences)
 
 ## About the Reduce function from https://blog.zhaw.ch/datascience/r-reduce-applys-lesser-known-brother/
 # Applies a function (in this case the Merge function we created) to a list of elements in a stepwise process: starts with the first two elements, then does the result of those two with the third element, and so on
